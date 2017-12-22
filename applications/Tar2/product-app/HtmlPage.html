@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>mywebsite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="AjaxCalls.js"></script>
+    <script src="Products.js"></script>
+   
+</head>
+<body>
+
+    <!-- The landing page -->
+    <div data-role="page" id="searchCategories">
+        <header data-theme="b" data-role="header">
+            <h1>Welcome</h1>
+        </header>
+
+        <div data-role="content">
+            <ul data-role="listview" data-filter="true" data-inset="true" id="categoryList" data-filter-reveal="true">
+                <!--Dynamic build of the products categories-->
+            </ul>
+        </div>
+
+        <footer data-role="footer" style="text-align:center" data-position="fixed">
+            <img src="images/logo.png" />
+        </footer>
+    </div>
+    <!-- End of the landing page -->
+
+
+    <!-- The Category page -->
+    <div data-role="page" id="showProducts">
+        <header data-theme="b" data-role="header">
+            <a href="#searchCategories" data-role="button" data-icon="back" data-iconpos="left">Back</a>
+            <h1>Products List</h1>
+        </header>
+
+        <div data-role="content">
+            <ul data-role="listview" data-filter="true" data-inset="true" id="productList" data-filter-placeholder="Enter a product...">
+                <!--Dynamic build of the products-->
+            </ul>
+        </div>
+
+        <footer data-role="footer" data-position="fixed" style="text-align:center">
+            <img src="images/logo.png" />
+        </footer>
+    </div>
+    <!--End of the Category page -->
+
+
+    <!-- The Product details page -->
+    <div data-role="page" id="productDetails">
+        <header data-theme="b" data-role="header">
+            <a href="#showProducts" data-role="button" data-icon="back" data-iconpos="notext"></a>
+            <h1>Product View</h1>
+        </header>
+
+        <div data-role="content">
+            <!--Dynamic build of the product details-->
+            <div id="prodPic">
+
+            </div>    
+            <div id="prodDetails">
+
+            </div>
+        </div>
+
+        <footer data-role="footer" data-position="fixed" style="text-align:center">
+            <img src="images/logo.png" />
+        </footer>
+    </div>
+    <!-- End of the product details page -->
+
+</body>
+</html>

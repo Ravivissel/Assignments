@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setPathPoint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="p" type="tns:Point" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Point">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Lat" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Lng" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="setPathPointResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="setPOI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="poi" type="tns:POI" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="POI">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="P" type="tns:Point" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImageUrl" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="setPOIResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="setePOI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="poi" type="tns:ePOI" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ePOI">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:POI">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="setePOIResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="setTargetPoint">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="p" type="tns:Point" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="setTargetPointResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="getPathList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPathListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getPathListResult" type="tns:ArrayOfPoint" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPoint">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Point" nillable="true" type="tns:Point" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getPOIList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getPOIListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getPOIListResult" type="tns:ArrayOfPOI" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPOI">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="POI" nillable="true" type="tns:POI" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getePOIList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getePOIListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getePOIListResult" type="tns:ArrayOfEPOI" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfEPOI">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ePOI" nillable="true" type="tns:ePOI" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getTarget">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getTargetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getTargetResult" type="tns:Point" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDistance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="p" type="tns:Point" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDistanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="getDistanceResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChallenge">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="p" type="tns:Point" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChallengeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChallengeResult" type="tns:Challenge" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Challenge">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ImagePath" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="TimeInSec" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="Longtitude" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="ArrayOfPoint" nillable="true" type="tns:ArrayOfPoint" />
+      <s:element name="ArrayOfPOI" nillable="true" type="tns:ArrayOfPOI" />
+      <s:element name="ArrayOfEPOI" nillable="true" type="tns:ArrayOfEPOI" />
+      <s:element name="Point" nillable="true" type="tns:Point" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="setPathPointSoapIn">
+    <wsdl:part name="parameters" element="tns:setPathPoint" />
+  </wsdl:message>
+  <wsdl:message name="setPathPointSoapOut">
+    <wsdl:part name="parameters" element="tns:setPathPointResponse" />
+  </wsdl:message>
+  <wsdl:message name="setPOISoapIn">
+    <wsdl:part name="parameters" element="tns:setPOI" />
+  </wsdl:message>
+  <wsdl:message name="setPOISoapOut">
+    <wsdl:part name="parameters" element="tns:setPOIResponse" />
+  </wsdl:message>
+  <wsdl:message name="setePOISoapIn">
+    <wsdl:part name="parameters" element="tns:setePOI" />
+  </wsdl:message>
+  <wsdl:message name="setePOISoapOut">
+    <wsdl:part name="parameters" element="tns:setePOIResponse" />
+  </wsdl:message>
+  <wsdl:message name="setTargetPointSoapIn">
+    <wsdl:part name="parameters" element="tns:setTargetPoint" />
+  </wsdl:message>
+  <wsdl:message name="setTargetPointSoapOut">
+    <wsdl:part name="parameters" element="tns:setTargetPointResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPathListSoapIn">
+    <wsdl:part name="parameters" element="tns:getPathList" />
+  </wsdl:message>
+  <wsdl:message name="getPathListSoapOut">
+    <wsdl:part name="parameters" element="tns:getPathListResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListSoapIn">
+    <wsdl:part name="parameters" element="tns:getPOIList" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListSoapOut">
+    <wsdl:part name="parameters" element="tns:getPOIListResponse" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListSoapIn">
+    <wsdl:part name="parameters" element="tns:getePOIList" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListSoapOut">
+    <wsdl:part name="parameters" element="tns:getePOIListResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTargetSoapIn">
+    <wsdl:part name="parameters" element="tns:getTarget" />
+  </wsdl:message>
+  <wsdl:message name="getTargetSoapOut">
+    <wsdl:part name="parameters" element="tns:getTargetResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDistanceSoapIn">
+    <wsdl:part name="parameters" element="tns:getDistance" />
+  </wsdl:message>
+  <wsdl:message name="getDistanceSoapOut">
+    <wsdl:part name="parameters" element="tns:getDistanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChallengeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChallenge" />
+  </wsdl:message>
+  <wsdl:message name="GetChallengeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChallengeResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn" />
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getPathListHttpGetIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPathListHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfPoint" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListHttpGetIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfPOI" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListHttpGetIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfEPOI" />
+  </wsdl:message>
+  <wsdl:message name="getTargetHttpGetIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getTargetHttpGetOut">
+    <wsdl:part name="Body" element="tns:Point" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn" />
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="getPathListHttpPostIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPathListHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfPoint" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListHttpPostIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getPOIListHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfPOI" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListHttpPostIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getePOIListHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfEPOI" />
+  </wsdl:message>
+  <wsdl:message name="getTargetHttpPostIn">
+    <wsdl:part name="groupName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="getTargetHttpPostOut">
+    <wsdl:part name="Body" element="tns:Point" />
+  </wsdl:message>
+  <wsdl:portType name="TreasureWSSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setPathPoint">
+      <wsdl:input message="tns:setPathPointSoapIn" />
+      <wsdl:output message="tns:setPathPointSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setPOI">
+      <wsdl:input message="tns:setPOISoapIn" />
+      <wsdl:output message="tns:setPOISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setePOI">
+      <wsdl:input message="tns:setePOISoapIn" />
+      <wsdl:output message="tns:setePOISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="setTargetPoint">
+      <wsdl:input message="tns:setTargetPointSoapIn" />
+      <wsdl:output message="tns:setTargetPointSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <wsdl:input message="tns:getPathListSoapIn" />
+      <wsdl:output message="tns:getPathListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <wsdl:input message="tns:getPOIListSoapIn" />
+      <wsdl:output message="tns:getPOIListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <wsdl:input message="tns:getePOIListSoapIn" />
+      <wsdl:output message="tns:getePOIListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <wsdl:input message="tns:getTargetSoapIn" />
+      <wsdl:output message="tns:getTargetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getDistance">
+      <wsdl:input message="tns:getDistanceSoapIn" />
+      <wsdl:output message="tns:getDistanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChallenge">
+      <wsdl:input message="tns:GetChallengeSoapIn" />
+      <wsdl:output message="tns:GetChallengeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TreasureWSHttpGet">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <wsdl:input message="tns:getPathListHttpGetIn" />
+      <wsdl:output message="tns:getPathListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <wsdl:input message="tns:getPOIListHttpGetIn" />
+      <wsdl:output message="tns:getPOIListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <wsdl:input message="tns:getePOIListHttpGetIn" />
+      <wsdl:output message="tns:getePOIListHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <wsdl:input message="tns:getTargetHttpGetIn" />
+      <wsdl:output message="tns:getTargetHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="TreasureWSHttpPost">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <wsdl:input message="tns:getPathListHttpPostIn" />
+      <wsdl:output message="tns:getPathListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <wsdl:input message="tns:getPOIListHttpPostIn" />
+      <wsdl:output message="tns:getPOIListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <wsdl:input message="tns:getePOIListHttpPostIn" />
+      <wsdl:output message="tns:getePOIListHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <wsdl:input message="tns:getTargetHttpPostIn" />
+      <wsdl:output message="tns:getTargetHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TreasureWSSoap" type="tns:TreasureWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPathPoint">
+      <soap:operation soapAction="http://tempuri.org/setPathPoint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPOI">
+      <soap:operation soapAction="http://tempuri.org/setPOI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setePOI">
+      <soap:operation soapAction="http://tempuri.org/setePOI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTargetPoint">
+      <soap:operation soapAction="http://tempuri.org/setTargetPoint" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <soap:operation soapAction="http://tempuri.org/getPathList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <soap:operation soapAction="http://tempuri.org/getPOIList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <soap:operation soapAction="http://tempuri.org/getePOIList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <soap:operation soapAction="http://tempuri.org/getTarget" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDistance">
+      <soap:operation soapAction="http://tempuri.org/getDistance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChallenge">
+      <soap:operation soapAction="http://tempuri.org/GetChallenge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TreasureWSSoap12" type="tns:TreasureWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPathPoint">
+      <soap12:operation soapAction="http://tempuri.org/setPathPoint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setPOI">
+      <soap12:operation soapAction="http://tempuri.org/setPOI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setePOI">
+      <soap12:operation soapAction="http://tempuri.org/setePOI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTargetPoint">
+      <soap12:operation soapAction="http://tempuri.org/setTargetPoint" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <soap12:operation soapAction="http://tempuri.org/getPathList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <soap12:operation soapAction="http://tempuri.org/getPOIList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <soap12:operation soapAction="http://tempuri.org/getePOIList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <soap12:operation soapAction="http://tempuri.org/getTarget" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDistance">
+      <soap12:operation soapAction="http://tempuri.org/getDistance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChallenge">
+      <soap12:operation soapAction="http://tempuri.org/GetChallenge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TreasureWSHttpGet" type="tns:TreasureWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <http:operation location="/getPathList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <http:operation location="/getPOIList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <http:operation location="/getePOIList" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <http:operation location="/getTarget" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="TreasureWSHttpPost" type="tns:TreasureWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPathList">
+      <http:operation location="/getPathList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPOIList">
+      <http:operation location="/getPOIList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getePOIList">
+      <http:operation location="/getePOIList" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTarget">
+      <http:operation location="/getTarget" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TreasureWS">
+    <wsdl:port name="TreasureWSSoap" binding="tns:TreasureWSSoap">
+      <soap:address location="http://proj.ruppin.ac.il/mobile/LBS_WS/TreasureWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TreasureWSSoap12" binding="tns:TreasureWSSoap12">
+      <soap12:address location="http://proj.ruppin.ac.il/mobile/LBS_WS/TreasureWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TreasureWSHttpGet" binding="tns:TreasureWSHttpGet">
+      <http:address location="http://proj.ruppin.ac.il/mobile/LBS_WS/TreasureWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="TreasureWSHttpPost" binding="tns:TreasureWSHttpPost">
+      <http:address location="http://proj.ruppin.ac.il/mobile/LBS_WS/TreasureWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

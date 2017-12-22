@@ -1,0 +1,17 @@
+﻿
+        body {
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            color: gray;
+
+        }
+
+        header {
+            text-align:center;
+        }
+
+        footer {
+            text-align:center;
+        }
+        td {
+            padding-left:10px;
+        }

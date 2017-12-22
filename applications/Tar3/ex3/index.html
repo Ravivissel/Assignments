@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKZW8kDSPbc-2w0hopNeWcxUHZetgzA4w&v=3.exp&sensor=false"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+    <script src="ajaxCalls.js"></script>
+
+    <title>Challenge Game</title>
+
+    <style type="text/css">
+        /*This Css code I found in order to make the maps work with jQueryMobile*/
+        #content {
+            padding: 0 !important;
+            position: absolute !important;
+            top: 40px !important;
+            right: 0 !important;
+            bottom: 40px !important;
+            left: 0 !important;
+        }
+
+        #gpsIcon {
+            height: 2em;
+        }
+
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .infoImg {
+            width: 90px;
+            max-height: 100px;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        //---------------------------------------------------------------
+        // this is called on the pagecreate event of the startDialog page
+        //---------------------------------------------------------------
+        $(document).on('pagecreate', '#startDialog', function (e, data) {
+            //---------------------------------------------
+            // calling a function on the startBTN link
+            //---------------------------------------------
+            $("#startBTN").click(function (event) { // calling a function on the startBTN link
+                groupName = $("#groupNameTB").val(); // get the value from the textbox
+                if (groupName == null || groupName == "") { // check that the user entered a value
+                    alert("please enter a group name");
+                    event.preventDefault(); // prevent the link from moving to the next page
+                }
+                else {
+                    navFlag = "on"; 
+                }
+            });
+        });
+
+        //--------------------------------------------------------------
+        // this is called on the pageshow event of the startDialog page
+        //--------------------------------------------------------------
+        $(document).on('pageshow', '#startDialog', function (e, data) {
+            if (!navigator.geolocation) {// Browser doesn't support Geolocation
+                alert("your browser doesn't support geoLocation");
+            }
+            if (typeof (h) !== 'undefined') { // in case we went back to the first page
+                if (h != null) clearInterval(h);
+            }
+        });
+
+        //-----------------------------------------------------------
+        // this is called on the pagecreate event of the map-page page
+        //-----------------------------------------------------------
+        $(document).on('pagecreate', '#map-page', function (e, data) {
+            // handle the stop click
+            $("#stopBTN").click(function () {
+                clearInterval(h); // stop running getMyPosition
+                clearInterval(r); // stop running decreaseChallengeTimer
+                navFlag = "off";  // set the navigaion flag to off
+                changePage("startDialog");// redirect the user to the landing page
+            });
+        });
+
+        //-----------------------------------------------------------
+        // this is called on the pageshow event of the map-page page
+        //-----------------------------------------------------------
+        $(document).on('pageshow', '#map-page', function (e, data) {            
+            image = "images/man_small.png";
+            happySmiley = "images/happy.jpg";
+            sadSmiley = "images/sad.jpg";
+            infowindow = null; // initialization for the first time
+            TimeInSec = 0; // initialization for the first time
+            timer = 305; // 5 minute timer for the game clock
+            timeInterval = 5000; // [in miliseconds] between the calls to the new position calculations
+            minDistance = 10; // distance from the challenge in which it is found
+            timeIntervalForChallenge = 1000; //[in miliseconds] for the challenge timer
+            i = 0; // initialization for the first getChallenge function
+
+            var mapOptions = { // set the map options
+                zoom: 17
+            }
+            mapObj = document.getElementById('map-canvas'); // get the map-canvas div
+            map = new google.maps.Map(mapObj, mapOptions); // create the map object
+
+            if (navFlag == "on") {
+                getMyPosition(); // activate it for the first time
+                h = setInterval("getMyPosition()", timeInterval); // run the getPosition every timeInterval 
+                r = setInterval("decreaseChallengeTimer()", timeIntervalForChallenge); // run the decreaseChallengeTimer every timeIntervalForChallenge 
+            }
+            else {
+                changePage("startDialog"); // handle the case that we got here via back
+            }
+        });
+
+        //-----------------------------------------------------------------------
+        // decrease Challenge Timer
+        //-----------------------------------------------------------------------
+        function decreaseChallengeTimer() {
+            if (TimeInSec != 0) {
+                TimeInSec -= timeIntervalForChallenge / 1000; //decrease Challenge Timer
+            }  
+            if (TimeInSec == 0 && i != 0) { //challenge time is over                
+                var marker2 = new google.maps.Marker({ // set a sad smiley on the map
+                    position: challengePos,
+                    map: map,
+                    title: 'Challenge Failed',
+                    icon: sadSmiley
+                });
+                getChallenge(request, getChallenge_success, getChallenge_failure);
+            }
+            // display the challenge remaining time to the user
+            document.getElementById("ChallengeTime").innerHTML = "Challenge: " + TimeInSec + "s";
+        }
+
+        //-----------------------------------------------------------------------
+        // get the user's position
+        //-----------------------------------------------------------------------
+        function getMyPosition() {
+
+            var options = {
+                enableHighAccuracy: true,
+                timeout: timeInterval,
+                maximumAge: 1000
+            };
+            navigator.geolocation.getCurrentPosition(getCurrentPosition_Success,
+                                                     getCurrentPosition_Failure,
+                                                     options);
+            timer -= timeInterval / 1000; // decrease the timer
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of success in getCurrentPosition
+        //------------------------------------------------------------
+        function getCurrentPosition_Success(position) {
+            if (navFlag == "off") return;
+            co = position.coords; // set a short variable for conviniece
+            pos = new google.maps.LatLng(co.latitude, co.longitude);
+            $('#gpsIcon').attr('src', 'images/gps.png'); // show the gps working icon
+            var marker1 = new google.maps.Marker({ // set a marker on the map
+                position: pos,
+                map: map,
+                title: 'You Are Here',
+                icon: image
+            });
+            
+            if (i == 0) {
+                map.setCenter(pos); // center the map around the position of the user
+            }
+            else {
+                avglatitude = ((co.latitude + challengeLat) / 2);
+                avglongitude = ((co.longitude + challengeLng) / 2);
+                map.setCenter(new google.maps.LatLng(avglatitude, avglongitude)); // center the map around the average between the user position and the challenge point 
+            }
+            
+            request = {
+                lat: co.latitude,
+                lng: co.longitude,
+                groupName: groupName
+            };
+
+            // Ajax function : calculate the distance of the user's from the target
+            // pass the callback functions as parameters to the ajax
+            getDistance(request, getDistance_Success, getDistance_Failure);
+
+            if (i == 0)
+            {
+                getChallenge(request, getChallenge_success, getChallenge_failure); //set a challenge for the first time
+            }
+            i++;
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of failure in getCurrentPosition
+        //------------------------------------------------------------
+        function getCurrentPosition_Failure() {
+            $('#gpsIcon').attr('src', 'images/no-gps.png');
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of success in getChallenge
+        //------------------------------------------------------------
+        function getChallenge_success(result) {
+            if (infowindow) { //if the challenge window is open, close it
+                infowindow.close();
+            }
+            var data = $.parseJSON(result.d)
+            var desc = data.Description;
+            var imgPath = data.ImagePath;
+            challengeLat = data.Latitude;
+            challengeLng = data.Longtitude;  
+            TimeInSec = data.TimeInSec;
+
+            // create a marker for the challenge
+            challengePos = new google.maps.LatLng(challengeLat, challengeLng);
+            chal_marker = new google.maps.Marker({
+                position: challengePos,
+                map: map,
+                title: 'Challenge Point',
+                icon: "images/blue-dot.png"
+            });
+            var contentString = '<div><h4>' + desc + '</h4><div><img class="infoImg" src = "' + imgPath + '"/></div></div>';
+            infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            infowindow.open(map, chal_marker); 
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of failure in getChallenge
+        //------------------------------------------------------------
+        function getChallenge_failure(e) {
+            alert("failed in get challenge :( " + e.responseText);
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of success in getDistance
+        //------------------------------------------------------------
+        function getDistance_Success(data) // Variable data contains the data we get from serverside
+        {
+            var distance = $.parseJSON(data.d) * 1000; //X 1000 is because the value received is in KM
+            distance = Math.floor(distance);           // round the distance
+            // display it to the user
+            document.getElementById("totalTime").innerHTML = "End: " + timer + "s";
+            //document.getElementById("totalTime").innerHTML = distance + "m ; a:" + co.accuracy + " ; " + timer + "s";
+
+            if (reachedTarget(distance)) {// check if the challenge target is reached
+                var marker3 = new google.maps.Marker({ // set a happy smiley on the map
+                    position: challengePos,
+                    map: map,
+                    title: 'Challenge Succeeded',
+                    icon: happySmiley
+                });
+                getChallenge(request, getChallenge_success, getChallenge_failure);
+            }
+
+            if (timer == 0) { //game time is over
+                clearInterval(h);
+                clearInterval(r);
+                changePage("startDialog");
+                navFlag = "off";
+            }
+        }
+
+        //------------------------------------------------------------
+        // Callback function in case of failure in getDistance
+        //------------------------------------------------------------
+        function getDistance_Failure(e) {
+            alert("failed in getDistance :( " + e.error);
+        } 
+
+        //------------------------------------------------------------
+        // Check if we reached the destination
+        //------------------------------------------------------------
+        function reachedTarget(distance) {
+            if (distance < minDistance) return true;
+            else return false;
+        }
+
+        //--------------------------------------------------------------
+        // Change to another page
+        //--------------------------------------------------------------
+        function changePage(pName) {
+            $.mobile.changePage($("#" + pName + ""), {
+                allowSamePageTransition: true,
+                transition: 'flip',
+                changeHash: true,
+                reverse: true,
+                showLoadMsg: true,
+                reloadPage: true,
+            });
+        }
+    </script>
+
+</head>
+<body>
+
+    <div data-role="page" id="startDialog">
+        <div data-role="header" data-theme="b" data-position="fixed">
+            <h1>
+                Are you ready?
+            </h1>
+        </div>
+        <div data-role="content" id="content2">
+                <input type="text" id="groupNameTB" placeholder="Enter your group name here"/>
+            <a href="#map-page" data-role="button" id="startBTN">
+                <h2>Start Game</h2>
+                <img src="images/Challenges.jpg" style="width:100%"/>
+            </a>
+        </div>
+    </div>
+
+    <div data-role="page" id="map-page">
+        <div data-role="header" data-position="fixed" data-theme="e">
+            <img src="images/no-gps.png" class="ui-btn-left" id="gpsIcon" />
+            <h1>
+                Challenge Game
+            </h1>
+            <h1 id="totalTime" data-theme="b">
+                End:
+            </h1>
+            <h1 id="ChallengeTime" data-theme="b">
+                Challenge:
+            </h1>
+        </div>
+        <div data-role="content" id="content">
+            <div id="map-canvas">
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-theme="e" style="text-align:center">
+            <a id="stopBTN" href="#startDialog" data-role="button">Stop Navigation</a>
+        </div>
+    </div>
+
+</body>
+</html>
