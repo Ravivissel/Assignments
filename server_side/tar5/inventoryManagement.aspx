@@ -15,7 +15,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
 
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" DeleteCommand="DELETE FROM [productN] WHERE [ID] = @original_ID" InsertCommand="INSERT INTO [productN] ([Name], [Price], [isActive], [catID], [Inventory], [imgURL]) VALUES (@Name, @Price, @isActive, @catID, @Inventory, @imgURL)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
+    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" DeleteCommand="DELETE FROM [productN] WHERE [ID] = @original_ID" InsertCommand="INSERT INTO [productN] ([Name], [Price], [isActive], [catID], [Inventory], [imgURL]) VALUES (@Name, @Price, @isActive, @catID, @Inventory, @imgURL)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
         <DeleteParameters>
             <asp:Parameter Name="original_ID" Type="Int32" />
         </DeleteParameters>
@@ -35,6 +35,7 @@
             <asp:Parameter Name="original_ID" />
 
         </UpdateParameters>
+        
     </asp:SqlDataSource>
     <asp:GridView CssClass="responstable" ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
         <AlternatingRowStyle BackColor="White" />
