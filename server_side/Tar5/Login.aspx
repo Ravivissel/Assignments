@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="Default2" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="Login" %>
 
 <!DOCTYPE html>
 
@@ -7,15 +7,16 @@
     <title>Login Page</title>
     <style>
         body {
-            background: url('http://i.imgur.com/Eor57Ae.jpg') no-repeat fixed center center;
+            background: url('images/furniture%20background.jpg') no-repeat fixed center center;
             background-size: cover;
             font-family: Montserrat;
+            font-size:15px;
         }
 
         .logo {
-            width: 213px;
+            width: 265px;
             height: 36px;    
-            margin: 30px auto;
+            margin: 40px auto;
         }
 
         .login-block {
@@ -91,6 +92,16 @@
             text-align: center;
         }
 
+        .login-block #rememberMe {
+            width: 6%;
+            height: 14px;
+            box-sizing: border-box;
+        }
+
+        .login-block p {
+            margin-bottom: -15px;
+        }
+
         #login:hover {
             background: #ff7b81;
         }
@@ -99,14 +110,14 @@
 <body>
     <form id="form1" runat="server">
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
-        <div class="logo"></div>
+        <div class="logo"><h1>The House Store</h1></div>
         <div class="login-block">
             <h1>Welcome</h1>
             <asp:TextBox type="text" ID="username" placeholder="user name" runat="server" required="required"></asp:TextBox>
             <asp:TextBox type="password" ID="Password" placeholder="password" runat="server" required="required"></asp:TextBox>
             <asp:Button ID="login" runat="server" Text="Login        " OnClick="login_Click" />
-            <input type="checkbox" checked="checked" id="rememberMe"/> זכור אותי
-        </div>
+            <p><asp:CheckBox ID="rememberMe" checked="true" runat="server" />Remember me</p>
+        </div>       
     </form>
 </body>
 </html>

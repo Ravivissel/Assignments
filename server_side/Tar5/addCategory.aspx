@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/managerMaster.master" AutoEventWireup="true" CodeFile="addCategory.aspx.cs" Inherits="addCategory" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style>
+        body{
+            background-color: #f2f2f2;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div>
@@ -19,6 +24,7 @@
              Style="color: #FF0000"></asp:RequiredFieldValidator><br /><br />
 
             <asp:Button runat="server" ID="submitBTN" Text="Submit" OnClick="submitBTN_Click"/><br /><br />
+            <asp:Label ID="categoryMessage" runat="server" Text="" Style="color: #FF0000"></asp:Label><br /><br />
     </div>
 </asp:Content>
 

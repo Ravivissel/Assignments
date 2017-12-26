@@ -1,4 +1,8 @@
-﻿.responstable {
+﻿body {
+    background-color: #f2f2f2;
+}
+
+.responstable {
     margin: 1em 0;
     width: 100%;
     overflow: hidden;

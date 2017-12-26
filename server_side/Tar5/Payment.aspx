@@ -202,7 +202,7 @@
             <!--ID-->
             <p id="ID" style="visibility: hidden">ID:</p>
             <input type="text" id="idTB" runat="server" style="visibility: hidden" />
-            <asp:CustomValidator ControlToValidate="idTB" Enabled="false"
+            <asp:CustomValidator ControlToValidate="idTB"
                ID="idTBVLD" runat="server" ErrorMessage="Please Enter A Valid ID"
                ClientValidationFunction="ID_Validation" Style="color: #FF0000"></asp:CustomValidator>
             <br />

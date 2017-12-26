@@ -4,16 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
+using System.Data;
 
 public partial class showProducts : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["customer"] == null)
+        {
+            MessageBox.Show("You are not connected, please connect at the login", "Alert");
+            Response.Redirect("Login.aspx");
+        }
+        
         addProducts(getProductsList());
 
-        DBServices db1 = new DBServices();
         List<Product> pList = new List<Product>();
-        pList = db1.getList();
+        pList = getProductsList();
         Random random = new Random();
         int randomNumber = random.Next(pList.Count);
 
@@ -22,14 +29,14 @@ public partial class showProducts : System.Web.UI.Page
             VeternCustomer.Text = "This is your first visit, do you want " + pList[randomNumber].Title + " in " + pList[randomNumber].Price * 0.5 + " instead of " + pList[randomNumber].Price + " ?";
             Response.Cookies["veteranCustomer"].Value = "firstVisit";
             Response.Cookies["veteranCustomer"].Expires = DateTime.Now.AddYears(100);
-            Response.Cookies["Id"].Value = pList[randomNumber].Id.ToString();
+            Response.Cookies["Id"].Value = pList[randomNumber].ProdId.ToString();
         }
         else
         {
             VeternCustomer.Text = "This is not your first visit, do you want " + pList[randomNumber].Title + " in " + pList[randomNumber].Price * 0.8 + " instead of " + pList[randomNumber].Price + " ?";
             Response.Cookies["veteranCustomer"].Value = "secondVisit";
             Response.Cookies["veteranCustomer"].Expires = DateTime.Now.AddYears(100);
-            Response.Cookies["Id"].Value = pList[randomNumber].Id.ToString();
+            Response.Cookies["Id"].Value = pList[randomNumber].ProdId.ToString();
         }
 
     }
@@ -38,57 +45,49 @@ public partial class showProducts : System.Web.UI.Page
     {
         for (int i = min; i < pList.Count; i++)
         {
-            //Create Controllers
-            Image img = new Image();
-            Label title = new Label();
-            Label price = new Label();
-            Label inventory = new Label();
-            Label attributes = new Label();
-            CheckBox cb = new CheckBox();
-
-            //Controllers assign:
-
-            //Title assign
-            title.ID = "title" + i.ToString();
-            title.Text = "<br/>" + pList[i].Title + "<br/>";
-
-            //Images assign
-            img.ID = "img" + i.ToString();
-            img.ImageUrl = pList[i].ImagePath;
-
-            //Attributes assign
-            attributes.ID = "attribute" + i.ToString();
-
-            Dictionary<string, string> atDict = new Dictionary<string, string>();
-            atDict = pList[i].Attributes;
-            foreach (KeyValuePair<string, string> kvp in atDict)
+            if(pList[i].IsActive == "Yes")
             {
-                attributes.Text += "<br/>" + kvp.Key.ToString() + " - " + kvp.Value;
+                //Create Controllers
+                System.Web.UI.WebControls.Label title = new System.Web.UI.WebControls.Label();
+                Image img = new Image();               
+                System.Web.UI.WebControls.Label price = new System.Web.UI.WebControls.Label();
+                System.Web.UI.WebControls.Label inventory = new System.Web.UI.WebControls.Label();
+                System.Web.UI.WebControls.CheckBox cb = new System.Web.UI.WebControls.CheckBox();
+
+                //Controllers assign:
+
+                //Title assign
+                title.ID = "title" + i.ToString();
+                title.Text = "<br/>" + pList[i].Title + "<br/>";
+
+                //Images assign
+                img.ID = "img" + i.ToString();
+                img.ImageUrl = pList[i].ImagePath;
+
+                //Price assign
+                price.ID = "price" + i.ToString();
+                price.Text = "<br/>Price:" + pList[i].Price.ToString();
+
+                //Inventory assign
+                inventory.ID = "inventory" + i.ToString();
+                inventory.Text = "<br/>In Stock: " + pList[i].Inventory.ToString() + "<br/>Buy:";
+
+                //CheckBox assign
+                cb.ID = "cb" + i.ToString();
+                if (pList[i].Inventory == 0)
+                {
+                    cb.Enabled = false;
+                }
+                cb.Text = "<br/><br/>";
+
+                //Add controlers to place holder
+                ph.Controls.Add(title);
+                ph.Controls.Add(img);
+                ph.Controls.Add(price);
+                ph.Controls.Add(inventory);
+                ph.Controls.Add(cb);
             }
 
-            //Price assign
-            price.ID = "price" + i.ToString();
-            price.Text = "<br/>Price:" + pList[i].Price.ToString();
-
-            //Inventory assign
-            inventory.ID = "inventory" + i.ToString();
-            inventory.Text = "<br/>In Stock: " + pList[i].Inventory.ToString() + "<br/>Buy:";
-
-            //CheckBox assign
-            cb.ID = "cb" + i.ToString();
-            if (pList[i].Inventory == 0)
-            {
-                cb.Enabled = false;
-            }
-            cb.Text = "<br/><br/>";
-
-            //Add controlers to place holder
-            ph.Controls.Add(title);
-            ph.Controls.Add(img);
-            ph.Controls.Add(attributes);
-            ph.Controls.Add(price);
-            ph.Controls.Add(inventory);
-            ph.Controls.Add(cb);
         }
     }
 
@@ -100,10 +99,10 @@ public partial class showProducts : System.Web.UI.Page
         //Checking for selected products
         for (int i = 0; i < pList.Count; i++)
         {
-            Control control = new Control();
+            System.Web.UI.Control control = new System.Web.UI.Control();
             control = ph.FindControl("cb" + i.ToString());
-            CheckBox cb = new CheckBox();
-            cb = (CheckBox)control;
+            System.Web.UI.WebControls.CheckBox cb = new System.Web.UI.WebControls.CheckBox();
+            cb = (System.Web.UI.WebControls.CheckBox)control;
 
             if (cb.Checked)
             {
@@ -117,14 +116,14 @@ public partial class showProducts : System.Web.UI.Page
 
                 for (int j = 0; j < pSelectedList.Count; j++)
                 {
-                    if (pSelectedList[j].Id == Id)
+                    if (pSelectedList[j].ProdId == Id)
                     {
                         if (Request.Cookies["veteranCustomer"].Value == "firstVisit")
                         {
-                            pSelectedList[j].Price = pSelectedList[j].Price * 0.5;
+                            pSelectedList[j].Price = (float)(pSelectedList[j].Price * 0.5);
                         }
                         else
-                            pSelectedList[j].Price = pSelectedList[j].Price * 0.8;
+                            pSelectedList[j].Price = (float)(pSelectedList[j].Price * 0.8);
                     }
 
                 }
@@ -166,10 +165,23 @@ public partial class showProducts : System.Web.UI.Page
 
     protected List<Product> getProductsList()
     {
-        Product p = new Product();
-        List<Product> pList = new List<Product>();
-        pList = p.getProducts();
-        return pList;
+        Product prod = new Product();
+        // read the table into a datatable
+        DataTable dt = prod.read();
+        List<Product> prodList = new List<Product>();
+        foreach (DataRow dr in dt.Rows)
+        {
+            int prodId = Convert.ToInt32(dr["ID"]);
+            string title = dr["Name"].ToString();
+            string image = dr["imgURL"].ToString();
+            float price = (float)Convert.ToDouble(dr["Price"]);
+            int inventory = Convert.ToInt32(dr["Inventory"]);
+            string isActive = dr["isActive"].ToString();
+            int category = Convert.ToInt32(dr["CatID"]);
+            Product p = new Product(prodId, category, title, image, price, inventory, isActive);
+            prodList.Add(p);
+        }
+        return prodList;
     }
 
     protected void proceedToPayment_Click(object sender, EventArgs e)

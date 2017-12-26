@@ -4,11 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 public partial class Payment : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Session["customer"] == null)
+        {
+            MessageBox.Show("You are not connected, please connect at the login", "Alert");
+            Response.Redirect("Login.aspx");
+        }
         if (Session["totalPrice1"] != null)
         {
             List<Product> pSelectedList = new List<Product>();

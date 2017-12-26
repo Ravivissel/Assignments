@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data;
 
 /// <summary>
 /// Summary description for Product
@@ -15,12 +16,19 @@ public class Product
         //
     }
 
-    private int id;
-
-    public int Id
+    private int prodId;
+    public int ProdId
     {
-        get { return id; }
-        set { id = value; }
+        get { return prodId; }
+        set { prodId = value; }
+    }
+
+    private int categoryId;
+
+    public int CategoryId
+    {
+        get { return categoryId; }
+        set { categoryId = value; }
     }
 
     private string title;
@@ -31,7 +39,6 @@ public class Product
         set { title = value; }
     }
 
-
     private string imagePath;
 
     public string ImagePath
@@ -40,10 +47,9 @@ public class Product
         set { imagePath = value; }
     }
 
+    private float price;
 
-    private double price;
-
-    public double Price
+    public float Price
     {
         get { return price; }
         set { price = value; }
@@ -57,58 +63,50 @@ public class Product
         set { inventory = value; }
     }
 
-    public Category category = new Category();
+    private string isActive;
 
-    private Dictionary<string, string> attributes;
-
-    public Dictionary<string, string> Attributes
+    public string IsActive
     {
-        get { return attributes; }
-        set { attributes = value; }
+        get { return isActive; }
+        set { isActive = value; }
     }
 
-
-    public Product(int _categoryId, int _id, string _title, string _imagePath, double _price, int _inventory, Dictionary<string, string> _attr)
+    public Product(int _categoryId, string _title, string _imagePath, float _price, int _inventory, string _isActive)
     {
-        category.Id = _categoryId;
-        Id = _id;
+        CategoryId = _categoryId;
         Title = _title;
         ImagePath = _imagePath;
         Price = _price;
         Inventory = _inventory;
-        Attributes = _attr;
-
+        IsActive = _isActive;
     }
 
-    public Product getProduct(int productId)
+    public Product(int _prodId, int _categoryId, string _title, string _imagePath, float _price, int _inventory, string _isActive)
     {
-        //call the method getProduct from DBService
-        return null;
-    }
-
-    public List<Product> getProducts()
-    {
-        DBServices db1 = new DBServices();
-        List<Product> pList = new List<Product>();
-        pList = db1.getList();
-        return pList;
-
-    }
-
-    // Constructor from ex1
-    public Product(string _name,int _id, int _category, double _price,int _inventory)
-    {
-        category.Id = _category;
-        Id = _id;
-        Title = _name;
+        ProdId = _prodId;
+        CategoryId = _categoryId;
+        Title = _title;
+        ImagePath = _imagePath;
         Price = _price;
         Inventory = _inventory;
+        IsActive = _isActive;
     }
 
-    public string getInfo()
+    public int insert()
     {
+        DBServices dbs = new DBServices();
+        int prod = dbs.insert(this);
+        return prod;
 
-        return "The " + Title + " product from the " + category.Id + " category has been added. The price is " + Price;
+    }
 
+    public DataTable read()
+    {
+        // read it using the DAL layer (DBServices)
+        DBServices dbs = new DBServices();
+        DataSet ds = new DataSet();
+        ds = dbs.ReadFromDataBase("igroup82_test1ConnectionString", "ProductN");
+        // return the DataTable
+        return ds.Tables[0];
     }
 }

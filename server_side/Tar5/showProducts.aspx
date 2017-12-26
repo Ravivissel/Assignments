@@ -1,9 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/customerMaster.master" AutoEventWireup="true" CodeFile="showProducts.aspx.cs" Inherits="showProducts" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <style>
+        body{
+            background-color: #f2f2f2;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-       <div>
+        <div>
             <h2>Welcome to The House Store</h2>
             <asp:Label ID="VeternCustomer" runat="server"></asp:Label><br />
             <asp:PlaceHolder ID="ph" runat="server" />
