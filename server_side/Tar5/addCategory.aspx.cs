@@ -49,7 +49,7 @@ public partial class addCategory : System.Web.UI.Page
     {
         categoryTB.AutoPostBack = true;
         string category = categoryTB.Text;
-        if (Session["DataSet"]!= null)
+        if (Session["DataSet"] != null)
         {
             //make sure that the new category doesn't alreloady exist in the data base
             DataSet ds = (DataSet)(Session["DataSet"]);
@@ -61,13 +61,14 @@ public partial class addCategory : System.Web.UI.Page
                     categoryMessage.Text = info;
                     return;
                 }
-                   
+
             }
 
             try
             {
-                DBServices dbs = new DBServices();
-                int numEffected = dbs.insert(category);
+                Category c = new Category(category);
+
+                int numEffected = c.Insert();
                 categoryMessage.Text = numEffected.ToString() + " new category was successfully added"; ;
             }
             catch (Exception ex)
