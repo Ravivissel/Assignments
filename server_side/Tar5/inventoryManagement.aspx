@@ -6,20 +6,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" DeleteCommand="DELETE FROM [productN] WHERE [ID] = @original_ID" InsertCommand="INSERT INTO [productN] ([Name], [Price], [isActive], [catID], [Inventory], [imgURL]) VALUES (@Name, @Price, @isActive, @catID, @Inventory, @imgURL)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
-        <DeleteParameters>
-            <asp:Parameter Name="original_ID" Type="Int32" />
-        </DeleteParameters>
-        <InsertParameters>
-            <asp:Parameter Name="Name" />
-            <asp:Parameter Name="Price" />
-            <asp:Parameter Name="isActive" Type="Int32" />
-            <asp:Parameter Name="catID" />
-            <asp:Parameter Name="Inventory" Type="Int32" />
-            <asp:Parameter Name="imgURL" />
-        </InsertParameters>
+    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
+        
         <UpdateParameters>
-            <asp:Parameter Name="isActive" Type="Int32" />
+            <asp:Parameter Name="isActive" />
             <asp:Parameter Name="Inventory" Type="Int32" />
             <asp:Parameter Name="original_ID" />
         </UpdateParameters>
