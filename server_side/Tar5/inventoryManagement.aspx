@@ -2,7 +2,24 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/StyleSheet.css" rel="stylesheet" />
-    <script src="jquery-3.2.1.min.js"></script>
+    <script src="jquery-3.2.1.min.js">
+    </script>
+    <script>
+        function isActiveValid(src, arg) {
+            if (arg.Value == 'Yes' || arg.Value == 'No') {
+                arg.IsValid = true;}
+            else
+                arg.IsValid = false;
+        }
+        function InventoryValid(src, arg) {
+            if (arg.Value > 0) {
+                arg.IsValid = true;
+            }
+            else
+                arg.IsValid = false;
+        }
+
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -16,7 +33,6 @@
             <asp:Parameter Name="Inventory" Type="Int32" />
             <asp:Parameter Name="original_ID" />
         </UpdateParameters>
-        
     </asp:SqlDataSource>
     <asp:GridView CssClass="responstable" ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
         <AlternatingRowStyle BackColor="White" />
@@ -25,10 +41,31 @@
             <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
             <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ReadOnly="True" />
             <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" ReadOnly="True" />
-            <asp:BoundField DataField="isActive" HeaderText="isActive" SortExpression="isActive" />
+            <asp:TemplateField HeaderText="isActive" SortExpression="isActive">
+                <EditItemTemplate>
+                    <asp:TextBox ID="isActiveTB" runat="server" Text='<%# Bind("isActive") %>'></asp:TextBox>
+                    <br />
+                    <asp:CustomValidator ID="CustomValidator1" runat="server" ClientValidationFunction="isActiveValid"  Style="color: #FF0000" ControlToValidate="isActiveTB" ErrorMessage="Must be Yes or No"></asp:CustomValidator>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("isActive") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="catID" HeaderText="catID" SortExpression="catID" ReadOnly="True" />
-            <asp:BoundField DataField="Inventory" HeaderText="Inventory" SortExpression="Inventory" />
+            <asp:TemplateField HeaderText="Inventory" SortExpression="Inventory">
+                <EditItemTemplate>
+                    <asp:TextBox ID="InventoryTB" runat="server" Text='<%# Bind("Inventory") %>'></asp:TextBox>
+                    <br />
+                    <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="Please Enter Numbers Only" 
+                    Type="Double" MinimumValue="0" MaximumValue="9999999999" ControlToValidate="InventoryTB" Style="color: #FF0000"></asp:RangeValidator>
+                    <asp:CustomValidator ID="CustomValidator2" runat="server" ErrorMessage="Must be greater then 0"  Style="color: #FF0000" ClientValidationFunction="InventoryValid" ControlToValidate="InventoryTB"></asp:CustomValidator>
+                </EditItemTemplate>
+                <ItemTemplate>
+                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("Inventory") %>'></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:ImageField DataImageUrlField="imgURL" ControlStyle-CssClass="dataGridImages" ReadOnly="True" NullImageUrl="~/images/replacement.jpg" >
+<ControlStyle CssClass="dataGridImages"></ControlStyle>
             </asp:ImageField>
         </Columns>
         <FooterStyle BackColor="#CCCC99" />

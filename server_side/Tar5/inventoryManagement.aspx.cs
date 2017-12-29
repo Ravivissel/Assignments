@@ -19,10 +19,12 @@ public partial class inventoryManagement : System.Web.UI.Page
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+
         if (e.Row.RowState == DataControlRowState.Edit)
         {
             ImageButton lb = e.Row.Cells[0].Controls[0] as ImageButton;
             lb.OnClientClick = "return confirm('Are you sure want to update inventory?');";
+            
         }
     }
 
@@ -36,5 +38,6 @@ public partial class inventoryManagement : System.Web.UI.Page
             //Set the exception handled property so it doesn't bubble-up
             e.ExceptionHandled = true;
         }
+
     }
 }
