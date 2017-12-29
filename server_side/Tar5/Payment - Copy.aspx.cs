@@ -52,7 +52,7 @@ public partial class Payment : System.Web.UI.Page
 
     protected void submitBTN_Click1(object sender, EventArgs e)
     {      //Upload the image to the server
-        if (Session["pSelectedList"] != null)
+        if (Session["totalPrice1"] != null)
         {
             List<Product> pSelectedList = new List<Product>();
             pSelectedList = ((List<Product>)(Session["pSelectedList"]));
@@ -65,7 +65,7 @@ public partial class Payment : System.Web.UI.Page
 
                 int quantity = Convert.ToInt32(Session[p.ProdId.ToString() + "SelectedNum"]);
                 Double totalPrice = Convert.ToDouble(Session[p.ProdId.ToString() + "TotalPrice"]);
-                Customer customer = (Customer)(Session["customer"]);
+                int customerID = Convert.ToInt32(customerIDTB.Text);
                 DateTime saleDate = DateTime.Now;
                 int paymentType;
 
@@ -74,20 +74,16 @@ public partial class Payment : System.Web.UI.Page
                 else
                     paymentType = 2;
 
-                Sale sale = new Sale(p, totalPrice, quantity, customer.Id, saleDate, paymentType);
+                Sale sale = new Sale(p, totalPrice, quantity, customerID, saleDate, paymentType);
 
-                DBServices dbs = new DBServices();
-                dbs.insert(sale);
 
 
             }
             //Upload the image to the server
-            /*
             string name = imageUpload.FileName; // Take the name on the client
             string path = Server.MapPath("."); //Path to the current directory
             imageUpload.SaveAs(path + "/images/" + name); // Must provide a full path
             imgsign.ImageUrl = "images/" + name; // Note that this is a relative link
-            */
         }
     }
 

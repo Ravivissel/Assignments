@@ -210,8 +210,58 @@ public class DBServices
 
     }
 
+
+
     //--------------------------------------------------------------------
-    // Build the Insert command String
+    // create the Insert command for Product
+    //--------------------------------------------------------------------
+    public int insert(Sale sale)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        //SqlCommand cmd1;
+
+        try
+        {
+            con = connect("igroup82_test1ConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String mStr = BuildInsertCommandProduct(sale);      // helper method to build the insert string
+        //String mStr1 = BuildUpdateCommandProduct(prod);
+        cmd = CreateCommand(mStr, con);
+        //cmd1 = CreateCommand(mStr1, con);// create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery();
+            //int numEffected1 = cmd1.ExecuteNonQuery();// execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String for prod
     //--------------------------------------------------------------------
     private String BuildInsertCommandProduct(Product prod)
     {
@@ -221,6 +271,22 @@ public class DBServices
         // use a string builder to create the dynamic string
         sb.AppendFormat("Values('{0}', '{1}', '{2}','{3}','{4}','{5}')", prod.Title, prod.ImagePath, prod.Price, prod.Inventory, prod.IsActive, prod.CategoryId);
         String prefix = "INSERT INTO ProductN " + "(Name, imgUrl, Price, Inventory, isActive, catID)";
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String for prod
+    //--------------------------------------------------------------------
+    private String BuildInsertCommandProduct(Sale sale)
+    {   //prodID	QTY	custID	DATE	lineTotal	paymentType
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        sb.AppendFormat("Values('{0}', '{1}', '{2}','{3}','{4}')", sale.CustomerId, sale.Quantity, sale.CustomerId, sale.Date, sale.PaymentType);
+        String prefix = "INSERT INTO sales " + "(prodID, QTY, custID, DATE, paymentType)";
         command = prefix + sb.ToString();
 
         return command;

@@ -118,6 +118,7 @@ public partial class Cart : System.Web.UI.Page
             {
                 if (ph.FindControl("cb" + i.ToString()) != null)
                 {
+
                     DropDownList inventoryDDL = (DropDownList)ph.FindControl("inventoryDDL" + i.ToString());
                     int selected = Convert.ToInt32(inventoryDDL.Text);
                     System.Web.UI.WebControls.CheckBox cb = (System.Web.UI.WebControls.CheckBox)ph.FindControl("cb" + i.ToString());
@@ -146,7 +147,27 @@ public partial class Cart : System.Web.UI.Page
 
     protected void confirm_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Payment.aspx");
+
+        List<Product> newListp = new List<Product>();
+        newListp = (List<Product>)(Session["pSelectedList"]);
+        int i = 0;
+        foreach (Product prod in newListp)
+        {
+            DropDownList inventoryDDL = (DropDownList)ph.FindControl("inventoryDDL" + i.ToString());
+            int selected = Convert.ToInt32(inventoryDDL.Text);
+            System.Web.UI.WebControls.CheckBox cb = (System.Web.UI.WebControls.CheckBox)ph.FindControl("cb" + i.ToString());
+
+            if (cb.Checked == true)
+            {
+
+                Session[prod.ProdId.ToString() + "SelectedNum"] = selected;
+                Session[prod.ProdId.ToString() + "TotalPrice"] = selected * prod.Price;
+
+            }
+        }
+
+    
+    Response.Redirect("Payment.aspx");
     }
 
     protected List<Product> getProductsList()
