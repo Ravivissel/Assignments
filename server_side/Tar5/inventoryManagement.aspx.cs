@@ -12,11 +12,7 @@ public partial class inventoryManagement : System.Web.UI.Page
     {
         if (Session["admin"] == null)
         {
-<<<<<<< HEAD
             Session["notConnected"] = "notConnected";
-=======
-            MessageBox.Show("You are not connected, please connect at the login", "Alert");
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
             Response.Redirect("Login.aspx");
         }
     }

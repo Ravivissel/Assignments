@@ -1,8 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/managerMaster.master" CodeFile="inventoryManagement.aspx.cs" Inherits="inventoryManagement" %>
-<<<<<<< HEAD
-=======
-
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/StyleSheet.css" rel="stylesheet" />
@@ -10,10 +6,20 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
-        
+    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" DeleteCommand="DELETE FROM [productN] WHERE [ID] = @original_ID" InsertCommand="INSERT INTO [productN] ([Name], [Price], [isActive], [catID], [Inventory], [imgURL]) VALUES (@Name, @Price, @isActive, @catID, @Inventory, @imgURL)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
+        <DeleteParameters>
+            <asp:Parameter Name="original_ID" Type="Int32" />
+        </DeleteParameters>
+        <InsertParameters>
+            <asp:Parameter Name="Name" />
+            <asp:Parameter Name="Price" />
+            <asp:Parameter Name="isActive" Type="Int32" />
+            <asp:Parameter Name="catID" />
+            <asp:Parameter Name="Inventory" Type="Int32" />
+            <asp:Parameter Name="imgURL" />
+        </InsertParameters>
         <UpdateParameters>
-            <asp:Parameter Name="isActive" />
+            <asp:Parameter Name="isActive" Type="Int32" />
             <asp:Parameter Name="Inventory" Type="Int32" />
             <asp:Parameter Name="original_ID" />
         </UpdateParameters>

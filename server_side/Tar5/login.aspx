@@ -37,6 +37,15 @@
             margin-bottom: 20px;
         }
 
+        #notConnected {
+            text-align:center;
+            color: #000;
+            font-size: 18px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
         .login-block input {
             width: 100%;
             height: 42px;
@@ -105,6 +114,18 @@
         #login:hover {
             background: #ff7b81;
         }
+
+        #con {
+            text-align: center;
+        }
+
+        .con {
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+            border-top: 5px solid #ff656c;
+            margin: 0 auto;
+        } 
     </style>
 </head>
 <body>
@@ -117,7 +138,13 @@
             <asp:TextBox type="password" ID="Password" placeholder="password" runat="server" required="required"></asp:TextBox>
             <asp:Button ID="login" runat="server" Text="Login        " OnClick="login_Click" />
             <p><asp:CheckBox ID="rememberMe" checked="true" runat="server" />Remember me</p>
-        </div>       
+        </div>
+        <div id="con">
+            <br />
+            <br />
+            <asp:Label ID="notConnected" runat="server" Text="You are not connected, please login" CssClass="con" Visible="false"></asp:Label>
+        </div>
+            
     </form>
 </body>
 </html>

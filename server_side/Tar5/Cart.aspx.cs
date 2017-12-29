@@ -4,10 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-<<<<<<< HEAD
 using System.Data;
-=======
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 using System.Windows.Forms;
 
 public partial class Cart : System.Web.UI.Page
@@ -16,11 +13,7 @@ public partial class Cart : System.Web.UI.Page
     {
         if (Session["customer"] == null)
         {
-<<<<<<< HEAD
             Session["notConnected"] = "notConnected";
-=======
-            MessageBox.Show("You are not connected, please connect at the login", "Alert");
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
             Response.Redirect("Login.aspx");
         }
         if (Request.Cookies["cartFirstTime"] == null)
@@ -52,19 +45,12 @@ public partial class Cart : System.Web.UI.Page
             {
                 //Create Controllers
                 Image img = new Image();
-<<<<<<< HEAD
                 System.Web.UI.WebControls.Label title = new System.Web.UI.WebControls.Label();
                 System.Web.UI.WebControls.Label text = new System.Web.UI.WebControls.Label();
                 System.Web.UI.WebControls.Label txt = new System.Web.UI.WebControls.Label();
                 DropDownList inventoryDDL = new DropDownList();
                 System.Web.UI.WebControls.Label price = new System.Web.UI.WebControls.Label();
                 System.Web.UI.WebControls.CheckBox cb = new System.Web.UI.WebControls.CheckBox();
-=======
-                Label title = new Label();
-                Label text = new Label();
-                Label price = new Label();
-                CheckBox cb = new CheckBox();
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 
                 //Controllers assign
 
@@ -76,7 +62,6 @@ public partial class Cart : System.Web.UI.Page
                 img.ID = "img" + i.ToString();
                 img.ImageUrl = pSelectedList[i].ImagePath;
 
-<<<<<<< HEAD
                 //InventoryDDL assign
 
                 List<Product> prodList = new List<Product>();
@@ -90,19 +75,11 @@ public partial class Cart : System.Web.UI.Page
                     inventoryDDL.Items.Add(j.ToString());
                 }
 
-=======
-                //Inventory assign
-                //inventory.ID = "inventory" + i.ToString();
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                 text.Text = "<br/>Buy:";
 
                 //Price assign
                 price.ID = "price" + i.ToString();
-<<<<<<< HEAD
                 price.Text = "<br/>Price:" + pSelectedList[i].Price.ToString() + "<br/><br/>";
-=======
-                price.Text = "<br/>Price:" + pSelectedList[i].Price.ToString();
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 
                 //CheckBox assign
                 cb.ID = "cb" + i.ToString();
@@ -117,11 +94,8 @@ public partial class Cart : System.Web.UI.Page
                 ph.Controls.Add(title);
                 ph.Controls.Add(img);
                 ph.Controls.Add(price);
-<<<<<<< HEAD
                 ph.Controls.Add(txt);
                 ph.Controls.Add(inventoryDDL); 
-=======
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                 ph.Controls.Add(text);
                 ph.Controls.Add(cb);
 
@@ -142,7 +116,6 @@ public partial class Cart : System.Web.UI.Page
             double total = 0;
             foreach (Product prod in newListp)
             {
-<<<<<<< HEAD
                 if (ph.FindControl("cb" + i.ToString()) != null)
                 {
                     DropDownList inventoryDDL = (DropDownList)ph.FindControl("inventoryDDL" + i.ToString());
@@ -162,15 +135,6 @@ public partial class Cart : System.Web.UI.Page
                         {
                             MessageBox.Show("Congratulations! You deserve a 10 percent discount on this product");
                         }
-=======
-
-                if (ph.FindControl("cb" + i.ToString()) != null)
-                {
-                    CheckBox cb = (CheckBox)ph.FindControl("cb" + i.ToString());
-                    if (cb.Checked == true)
-                    {
-                        total = total + prod.Price;
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                     }
                 }
                 i++;
@@ -184,7 +148,6 @@ public partial class Cart : System.Web.UI.Page
     {
         Response.Redirect("Payment.aspx");
     }
-<<<<<<< HEAD
 
     protected List<Product> getProductsList()
     {
@@ -206,6 +169,4 @@ public partial class Cart : System.Web.UI.Page
         }
         return prodList;
     }
-=======
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 }

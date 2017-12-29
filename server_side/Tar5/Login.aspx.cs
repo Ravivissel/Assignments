@@ -4,19 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-<<<<<<< HEAD
 using System.Windows.Forms;
 using System.Data;
-=======
-using System.Data;
-using System.Windows.Forms;
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 
 public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-<<<<<<< HEAD
         if (Session["notConnected"] != null)
             notConnected.Visible = true;
 
@@ -28,20 +22,6 @@ public partial class Login : System.Web.UI.Page
                 if (userName == "admin")
                     Response.Redirect("inventoryManagement.aspx");
                 else
-=======
-        if (IsPostBack == false)
-        {
-            if (Request.Cookies["adminPassword"] != null && Request.Cookies["adminUserName"] != null)
-            {
-                DialogResult result = MessageBox.Show("Hi Admin, Do you want to connect automatically?", "Message Box", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                    Response.Redirect("inventoryManagement.aspx");
-            }
-            if (Request.Cookies["customerPassword"] != null && Request.Cookies["customerUserName"] != null)
-            {
-                DialogResult result = MessageBox.Show("Hi Customer, Do you want to connect automatically?", "Message Box", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                     Response.Redirect("showProducts.aspx");
             }
         }
@@ -76,7 +56,6 @@ public partial class Login : System.Web.UI.Page
         // data has been validated successfully
         if (exist == 1)
         {
-<<<<<<< HEAD
             if (Request.Cookies["pass"] != null && Request.Cookies["name"] != null)
             {
                 if (rememberMe.Checked == true)
@@ -90,39 +69,11 @@ public partial class Login : System.Web.UI.Page
             if (userName == "admin" && password == "admin") //redirect manager and customer to the right pages
             {
                 Session["admin"] = "admin";
-=======
-            if (userName == "admin" && password == "admin") //redirect manager and customer to the right pages
-            {
-                Session["admin"] = "admin";
-                if (Request.Cookies["adminPassword"] != null && Request.Cookies["adminUserName"] != null)
-                {
-                    if (rememberMe.Checked == true)
-                    {
-                        Response.Cookies["adminUserName"].Value = userName;
-                        Response.Cookies["adminPassword"].Value = password;
-                        Response.Cookies["adminUserName"].Expires = DateTime.Now.AddMinutes(20);
-                        Response.Cookies["adminPassword"].Expires = DateTime.Now.AddMinutes(20);
-                    }
-                }                    
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                 Response.Redirect("inventoryManagement.aspx");
             }
             else
             {
                 Session["customer"] = "customer";
-<<<<<<< HEAD
-=======
-                if (Request.Cookies["customerPassword"] != null && Request.Cookies["customerUserName"] != null)
-                {
-                    if (rememberMe.Checked == true)
-                    {
-                        Response.Cookies["customerUserName"].Value = userName;
-                        Response.Cookies["customerPassword"].Value = password;
-                        Response.Cookies["customerUserName"].Expires = DateTime.Now.AddMinutes(20);
-                        Response.Cookies["customerPassword"].Expires = DateTime.Now.AddMinutes(20);
-                    }
-                }
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
                 Response.Redirect("showProducts.aspx");
             }
         }

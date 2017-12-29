@@ -17,11 +17,7 @@
             <asp:Button ID="BackBT" runat="server" Text="Back" OnClick="BackBT_Clicked" Visible="false" />
             <br />
             <asp:Label ID="Checkout_Lable" Text="<br/>The Selected Items Are:" runat="server" Visible="false"></asp:Label><br /><br />
-<<<<<<< HEAD
             <asp:Button ID="proceedToPayment" runat="server" Text="Proceed To Cart" Visible="false" OnClick="proceedToPayment_Click" /><br /><br />
-=======
-            <asp:Button ID="proceedToPayment" runat="server" Text="Proceed To Cart" Visible="false" OnClick="proceedToPayment_Click" />
->>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
         </div>
 </asp:Content>
 
