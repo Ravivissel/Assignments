@@ -1,20 +1,11 @@
-﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/Master.master" CodeFile="inventoryManagement.aspx.cs" Inherits="inventoryManagement" %>
-
+﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/managerMaster.master" CodeFile="inventoryManagement.aspx.cs" Inherits="inventoryManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/StyleSheet.css" rel="stylesheet" />
     <script src="jquery-3.2.1.min.js"></script>
-
-
 </asp:Content>
 
-
-
-
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
-
     <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>" DeleteCommand="DELETE FROM [productN] WHERE [ID] = @original_ID" InsertCommand="INSERT INTO [productN] ([Name], [Price], [isActive], [catID], [Inventory], [imgURL]) VALUES (@Name, @Price, @isActive, @catID, @Inventory, @imgURL)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]" UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
         <DeleteParameters>
             <asp:Parameter Name="original_ID" Type="Int32" />
@@ -28,12 +19,9 @@
             <asp:Parameter Name="imgURL" />
         </InsertParameters>
         <UpdateParameters>
-
             <asp:Parameter Name="isActive" Type="Int32" />
             <asp:Parameter Name="Inventory" Type="Int32" />
-
             <asp:Parameter Name="original_ID" />
-
         </UpdateParameters>
         
     </asp:SqlDataSource>
@@ -60,7 +48,5 @@
         <SortedDescendingCellStyle BackColor="#EAEAD3" />
         <SortedDescendingHeaderStyle BackColor="#575357" />
     </asp:GridView>
-
-
 
 </asp:Content>

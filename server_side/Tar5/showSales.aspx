@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.master" AutoEventWireup="true" CodeFile="showSales.aspx.cs" Inherits="showSales" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/managerMaster.master" AutoEventWireup="true" CodeFile="showSales.aspx.cs" Inherits="showSales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/StyleSheet.css" rel="stylesheet" />

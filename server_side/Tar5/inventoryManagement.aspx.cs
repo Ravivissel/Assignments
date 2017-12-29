@@ -4,14 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 
 public partial class inventoryManagement : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (Session["admin"] == null)
+        {
+            Session["notConnected"] = "notConnected";
+            Response.Redirect("Login.aspx");
+        }
     }
-
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
@@ -22,17 +26,15 @@ public partial class inventoryManagement : System.Web.UI.Page
         }
     }
 
-
-
     protected void SqlDataSource1_Selected(object sender, SqlDataSourceStatusEventArgs e)
     {
-          if (e.Exception != null)
-    {
+        if (e.Exception != null)
+        {
             //Show error message
             Console.WriteLine("error: " + e.Exception);
 
-        //Set the exception handled property so it doesn't bubble-up
-        e.ExceptionHandled = true;
-    }
+            //Set the exception handled property so it doesn't bubble-up
+            e.ExceptionHandled = true;
+        }
     }
 }
