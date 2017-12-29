@@ -1,4 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" AutoEventWireup="true" MasterPageFile="~/managerMaster.master" CodeFile="inventoryManagement.aspx.cs" Inherits="inventoryManagement" %>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/StyleSheet.css" rel="stylesheet" />

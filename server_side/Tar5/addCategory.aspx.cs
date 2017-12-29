@@ -15,8 +15,13 @@ public partial class addCategory : System.Web.UI.Page
     {
         if (Session["admin"] == null)
         {
+<<<<<<< HEAD
             Session["notConnected"] = "notConnected";
             Response.Redirect("Login.aspx");            
+=======
+            MessageBox.Show("You are not connected, please connect at the login", "Alert");
+            Response.Redirect("Login.aspx");
+>>>>>>> 41d88bcaa961cf0316dc2ddf7278d5c2638f7a0b
         }
         DBServices dbs = new DBServices();
         DataSet ds = dbs.ReadFromDataBase("igroup82_test1ConnectionString", "Category");
