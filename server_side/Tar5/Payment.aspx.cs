@@ -57,10 +57,7 @@ public partial class Payment : System.Web.UI.Page
             List<Product> pSelectedList = new List<Product>();
             pSelectedList = ((List<Product>)(Session["pSelectedList"]));
             int numEffected = 0;
-            int errorCount = 0;
-
-            ///Product _product, float _totalPrice, int _quantity, int _customerId, DateTime _date, bool _paymentType
-            ///
+    
 
             foreach (Product p in pSelectedList)
             {
@@ -86,26 +83,17 @@ public partial class Payment : System.Web.UI.Page
                 {
                     numEffected += dbs.Update(p);
                     numEffected += dbs.insert(sale);
+                    Session["PostSale"] = "SaleSucceeded";
                 }
 
                 catch (Exception err)
                 {
                     Console.WriteLine(err);
+                    Session["PostSale"] = "SaleFailed";
                     throw err;
 
                 }
 
-            }
-
-            if (numEffected > 0)
-            {
-                Response.Write("alert('Thanks for buying with us')");
-
-            }
-            if (errorCount > 0)
-            {
-
-                Response.Write("alert('There was error with the ')");
             }
             Response.Redirect("showProducts.aspx");
 

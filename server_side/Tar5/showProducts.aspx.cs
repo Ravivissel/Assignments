@@ -11,12 +11,25 @@ public partial class showProducts : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        if ((String)Session["PostSale"] == "SaleSucceeded")
+        {
+            Response.Write("<script language=javascript>alert('Sale Succeeded');</script>");
+            
+        }
+        else if ((String)Session["PostSale"] == "SaleFailed")
+        {
+            Response.Write("<script language=javascript>alert('Sale Failed');</script>");
+           
+        }
+        Session["PostSale"] = null;
+
         if (Session["customer"] == null)
         {
             Session["notConnected"] = "notConnected";
             Response.Redirect("Login.aspx");
         }
-        
+
         addProducts(getProductsList());
 
         List<Product> pList = new List<Product>();
@@ -45,11 +58,11 @@ public partial class showProducts : System.Web.UI.Page
     {
         for (int i = pList[0].ProdId; i < pList.Count; i++)
         {
-            if(pList[i].IsActive == "Yes")
+            if (pList[i].IsActive == "Yes")
             {
                 //Create Controllers
                 System.Web.UI.WebControls.Label title = new System.Web.UI.WebControls.Label();
-                Image img = new Image();               
+                Image img = new Image();
                 System.Web.UI.WebControls.Label price = new System.Web.UI.WebControls.Label();
                 System.Web.UI.WebControls.Label inventory = new System.Web.UI.WebControls.Label();
                 System.Web.UI.WebControls.CheckBox cb = new System.Web.UI.WebControls.CheckBox();
