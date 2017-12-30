@@ -21,7 +21,7 @@ public class DBServices
         // TODO: Add constructor logic here
         //
     }
- 
+
     //--------------------------------------------------------------------------------------------------
     // This method creates a connection to the database according to the connectionString name in the web.config 
     //--------------------------------------------------------------------------------------------------
@@ -161,11 +161,29 @@ public class DBServices
 
         return command;
     }
+    //--------------------------------------------------------------------
+    // Build the Update command String for prod
+    //--------------------------------------------------------------------
+    private String BuildUpdateCommandProduct(Product prod)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = "UPDATE ProductN ";
+        sb.AppendFormat("SET Name = '{0}',imgUrl= '{1}',Price= '{2}',Inventory='{3}',isActive='{4}',catID='{5}'", prod.Title, prod.ImagePath, prod.Price, prod.Inventory, prod.IsActive, prod.CategoryId);
+        string where = "WHERE id=" + prod.ProdId;
+        command = prefix + sb.ToString() + where;
+
+        return command;
+    }
+
+
 
     //--------------------------------------------------------------------
-    // create the Insert command for Product
+    // create the Update command for Product
     //--------------------------------------------------------------------
-    public int insert(Product prod)
+    public int Update(Product prod)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -181,15 +199,14 @@ public class DBServices
             throw (ex);
         }
 
-        String mStr = BuildInsertCommandProduct(prod);      // helper method to build the insert string
-        //String mStr1 = BuildUpdateCommandProduct(prod);
+        String mStr = BuildUpdateCommandProduct(prod);      // helper method to build the insert string
+
         cmd = CreateCommand(mStr, con);
-        //cmd1 = CreateCommand(mStr1, con);// create the command
 
         try
         {
             int numEffected = cmd.ExecuteNonQuery();
-            //int numEffected1 = cmd1.ExecuteNonQuery();// execute the command
+
             return numEffected;
         }
         catch (Exception ex)
@@ -215,6 +232,55 @@ public class DBServices
     //--------------------------------------------------------------------
     // create the Insert command for Product
     //--------------------------------------------------------------------
+    public int insert(Product prod)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        //SqlCommand cmd1;
+
+        try
+        {
+            con = connect("igroup82_test1ConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String mStr = BuildInsertCommandProduct(prod);      // helper method to build the insert string
+
+        cmd = CreateCommand(mStr, con);
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery();
+
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+    //--------------------------------------------------------------------
+    // create the Insert command for Sale
+    //--------------------------------------------------------------------
     public int insert(Sale sale)
     {
         SqlConnection con;
@@ -232,14 +298,14 @@ public class DBServices
         }
 
         String mStr = BuildInsertCommandProduct(sale);      // helper method to build the insert string
-        //String mStr1 = BuildUpdateCommandProduct(prod);
+
         cmd = CreateCommand(mStr, con);
-        //cmd1 = CreateCommand(mStr1, con);// create the command
+
 
         try
         {
             int numEffected = cmd.ExecuteNonQuery();
-            //int numEffected1 = cmd1.ExecuteNonQuery();// execute the command
+
             return numEffected;
         }
         catch (Exception ex)
@@ -276,6 +342,7 @@ public class DBServices
         return command;
     }
 
+    
     //--------------------------------------------------------------------
     // Build the Insert command String for prod
     //--------------------------------------------------------------------
@@ -285,8 +352,8 @@ public class DBServices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}', '{2}','{3}','{4}')", sale.CustomerId, sale.Quantity, sale.CustomerId, sale.Date, sale.PaymentType);
-        String prefix = "INSERT INTO sales " + "(prodID, QTY, custID, DATE, paymentType)";
+        sb.AppendFormat("Values('{0}', '{1}', '{2}','{3}','{4}','{5}')", sale.ProductId, sale.Quantity, sale.CustomerId, sale.TotalPrice, sale.Date, sale.PaymentType);
+        String prefix = "INSERT INTO sales " + "(prodID, QTY, custID, lineTotal,DATE, paymentType)";
         command = prefix + sb.ToString();
 
         return command;

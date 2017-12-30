@@ -8,7 +8,7 @@ using System.Web;
 /// </summary>
 public class Sale
 {
-    private Product product;
+    private int productId;
     private Double totalPrice;
     private int quantity;
     private int customerId;
@@ -20,9 +20,9 @@ public class Sale
     {
     }
 
-    public Sale(Product _product, Double _totalPrice, int _quantity, int _customerId, DateTime _date, int _paymentType)
+    public Sale(int _product, Double _totalPrice, int _quantity, int _customerId, DateTime _date, int _paymentType)
     {
-        Product = _product;
+        ProductId = _product;
         TotalPrice = _totalPrice;
         Quantity = _quantity;
         CustomerId = _customerId;
@@ -31,18 +31,16 @@ public class Sale
 
     }
 
-
-
-    public Product Product
+    public int ProductId
     {
         get
         {
-            return product;
+            return productId;
         }
 
         set
         {
-            product = value;
+            productId = value;
         }
     }
 

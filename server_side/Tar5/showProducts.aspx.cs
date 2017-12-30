@@ -43,7 +43,7 @@ public partial class showProducts : System.Web.UI.Page
 
     protected void addProducts(List<Product> pList, int min = 0)
     {
-        for (int i = min; i < pList.Count; i++)
+        for (int i = pList[0].ProdId; i < pList.Count; i++)
         {
             if(pList[i].IsActive == "Yes")
             {
@@ -97,7 +97,7 @@ public partial class showProducts : System.Web.UI.Page
         List<Product> pSelectedList = new List<Product>();
 
         //Checking for selected products
-        for (int i = 0; i < pList.Count; i++)
+        for (int i = pList[0].ProdId; i < pList.Count; i++)
         {
             System.Web.UI.Control control = new System.Web.UI.Control();
             control = ph.FindControl("cb" + i.ToString());

@@ -24,7 +24,7 @@ public partial class inventoryManagement : System.Web.UI.Page
         {
             ImageButton lb = e.Row.Cells[0].Controls[0] as ImageButton;
             lb.OnClientClick = "return confirm('Are you sure want to update inventory?');";
-            
+
         }
     }
 
@@ -40,4 +40,6 @@ public partial class inventoryManagement : System.Web.UI.Page
         }
 
     }
+    
+  
 }

@@ -25,7 +25,6 @@ public partial class Login : System.Web.UI.Page
             {
                 Customer customer = new Customer();
 
-
                 customer.UserName = Request.Cookies["name"].ToString();
                 customer.Password = Request.Cookies["pass"].ToString();
                 customer.UserType = Request.Cookies["userType"].ToString();
@@ -34,7 +33,11 @@ public partial class Login : System.Web.UI.Page
                 Session["customer"] = customer;
 
                 if (customer.UserType == MANAGER_TYPE)
+                {
+                    Session["admin"] = customer.Id;
                     Response.Redirect("inventoryManagement.aspx");
+                }
+
                 else
                     Response.Redirect("showProducts.aspx");
             }
@@ -71,6 +74,7 @@ public partial class Login : System.Web.UI.Page
                 customer.UserType = dr["userType"].ToString();
                 customer.Id = Convert.ToInt32(dr["ID"]);
                 Session["customer"] = customer;
+                break;
             }
         }
 
@@ -83,7 +87,7 @@ public partial class Login : System.Web.UI.Page
             {
                 if (rememberMe.Checked == true)
                 {
-                    Response.Cookies["customer"].Value = customer.UserName;
+                    Response.Cookies["name"].Value = customer.UserName;
                     Response.Cookies["pass"].Value = customer.Password;
                     Response.Cookies["type"].Value = customer.UserType;
                     Response.Cookies["ID"].Value = customer.Id.ToString();
@@ -94,8 +98,8 @@ public partial class Login : System.Web.UI.Page
 
             Session["customer"] = customer;
 
-            
-if (customer.UserType == MANAGER_TYPE) //redirect manager and customer to the right pages
+
+            if (customer.UserType == MANAGER_TYPE) //redirect manager and customer to the right pages
             {
                 Session["admin"] = customer.Id;
                 Response.Redirect("inventoryManagement.aspx");

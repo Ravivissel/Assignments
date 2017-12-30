@@ -74,7 +74,7 @@ public partial class Payment : System.Web.UI.Page
                 else
                     paymentType = 2;
 
-                Sale sale = new Sale(p, totalPrice, quantity, customerID, saleDate, paymentType);
+                Sale sale = new Sale(p.ProdId, totalPrice, quantity, customerID, saleDate, paymentType);
 
 
 

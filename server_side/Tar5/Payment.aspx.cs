@@ -56,6 +56,8 @@ public partial class Payment : System.Web.UI.Page
         {
             List<Product> pSelectedList = new List<Product>();
             pSelectedList = ((List<Product>)(Session["pSelectedList"]));
+            int numEffected = 0;
+            int errorCount = 0;
 
             ///Product _product, float _totalPrice, int _quantity, int _customerId, DateTime _date, bool _paymentType
             ///
@@ -69,18 +71,45 @@ public partial class Payment : System.Web.UI.Page
                 DateTime saleDate = DateTime.Now;
                 int paymentType;
 
+
                 if (PhoneCB.Checked)
                     paymentType = 1;
                 else
                     paymentType = 2;
 
-                Sale sale = new Sale(p, totalPrice, quantity, customer.Id, saleDate, paymentType);
+                Sale sale = new Sale(p.ProdId, totalPrice, quantity, customer.Id, saleDate, paymentType);
+
+                p.Inventory -= sale.Quantity;
 
                 DBServices dbs = new DBServices();
-                dbs.insert(sale);
+                try
+                {
+                    numEffected += dbs.Update(p);
+                    numEffected += dbs.insert(sale);
+                }
 
+                catch (Exception err)
+                {
+                    Console.WriteLine(err);
+                    throw err;
+
+                }
 
             }
+
+            if (numEffected > 0)
+            {
+                Response.Write("alert('Thanks for buying with us')");
+
+            }
+            if (errorCount > 0)
+            {
+
+                Response.Write("alert('There was error with the ')");
+            }
+            Response.Redirect("showProducts.aspx");
+
+
             //Upload the image to the server
             /*
             string name = imageUpload.FileName; // Take the name on the client
