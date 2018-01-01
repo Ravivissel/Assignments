@@ -178,6 +178,67 @@ public class DBServices
         return command;
     }
 
+    private String BuildUpdateProductIsActiceCommand(Product prod)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = "UPDATE ProductN ";
+        sb.AppendFormat("SET isActive = '{0}'", prod.IsActive);
+        string where = "WHERE id=" + prod.ProdId;
+        command = prefix + sb.ToString() + where;
+
+        return command;
+    }
+
+
+    //--------------------------------------------------------------------
+    // create the Update command for Product
+    //--------------------------------------------------------------------
+    public int UpdateIsActive(Product prod)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        //SqlCommand cmd1;
+
+        try
+        {
+            con = connect("igroup82_test1ConnectionString"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String mStr = BuildUpdateProductIsActiceCommand(prod);      // helper method to build the insert string
+
+        cmd = CreateCommand(mStr, con);
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery();
+
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            return 0;
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
 
 
     //--------------------------------------------------------------------

@@ -25,10 +25,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:SqlDataSource OnSelected="SqlDataSource1_Selected" ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>"
+    <asp:SqlDataSource  ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:igroup82_test1ConnectionString %>"
         OldValuesParameterFormatString="original_{0}"
         SelectCommand="SELECT [ID], [Name], [Price], [isActive], [catID], [Inventory], [imgURL] FROM [productN]"
-        UpdateCommand="UPDATE [productN] SET [isActive] = @isActive, [Inventory] = @Inventory WHERE [ID] = @original_ID">
+        UpdateCommand="UPDATE [productN] SET  [Inventory] = @Inventory WHERE [ID] = @original_ID">
 
         <UpdateParameters>
             <asp:Parameter Name="isActive" />
@@ -36,21 +36,23 @@
             <asp:Parameter Name="original_ID" />
         </UpdateParameters>
     </asp:SqlDataSource>
-    <asp:GridView CssClass="responstable" ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
+    <asp:GridView OnRowUpdating="GridView1_RowUpdating"  CssClass="responstable" ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="SqlDataSource1" OnRowDataBound="GridView1_RowDataBound" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
             <asp:CommandField ShowEditButton="True" CancelImageUrl="~/images/cancel.png" EditImageUrl="~/images/edit-icon-png-24.png" UpdateImageUrl="~/images/confirm.png" ButtonType="Image" />
             <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
             <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ReadOnly="True" />
             <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" ReadOnly="True" />
-            <asp:TemplateField HeaderText="isActive" SortExpression="isActive">
+            <asp:TemplateField  HeaderText="isActive" SortExpression="isActive">
                 <EditItemTemplate>
-                    <asp:TextBox ID="isActiveTB" runat="server" Text='<%# Bind("isActive", "{0}") %>' Width="45px"></asp:TextBox>
+                    <asp:DropDownList ID="DropDownList1" runat="server" Height="16px" >
+                        <asp:ListItem Value="Yes">Yes</asp:ListItem>
+                        <asp:ListItem Value="No" >No</asp:ListItem>
+                    </asp:DropDownList>
                     <br />
-                    <asp:CustomValidator ID="CustomValidator1" runat="server" ClientValidationFunction="isActiveValid" Style="color: #FF0000" ControlToValidate="isActiveTB" ErrorMessage="Must be Yes or No"></asp:CustomValidator>
                 </EditItemTemplate>
                 <ItemTemplate>
-                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("isActive") %>'></asp:Label>
+                    <asp:Label ID="isActive" runat="server" Text='<%# Bind("isActive") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="catID" HeaderText="catID" SortExpression="catID" ReadOnly="True" />

@@ -15,6 +15,9 @@ public partial class inventoryManagement : System.Web.UI.Page
             Session["notConnected"] = "notConnected";
             Response.Redirect("Login.aspx");
         }
+
+        
+
     }
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -26,20 +29,36 @@ public partial class inventoryManagement : System.Web.UI.Page
             lb.OnClientClick = "return confirm('Are you sure want to update inventory?');";
 
         }
+
+
+
     }
 
-    protected void SqlDataSource1_Selected(object sender, SqlDataSourceStatusEventArgs e)
+
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-        if (e.Exception != null)
-        {
-            //Show error message
-            Console.WriteLine("error: " + e.Exception);
+        System.Web.UI.WebControls.DropDownList ddl = (System.Web.UI.WebControls.DropDownList)GridView1.Rows[e.RowIndex].FindControl("DropDownList1");
 
-            //Set the exception handled property so it doesn't bubble-up
-            e.ExceptionHandled = true;
-        }
+
+
+        string selected = ddl.SelectedValue;
+
+
+        Product prod = new Product();
+
+
+        int prodId = Convert.ToInt32(GridView1.Rows[e.RowIndex].Cells[1].Text);
+
+        string isActive = selected;
+
+        prod.ProdId = prodId;
+        prod.IsActive = isActive;
+
+
+        DBServices dbs = new DBServices();
+        dbs.UpdateIsActive(prod);
+
 
     }
-    
-  
+ 
 }
