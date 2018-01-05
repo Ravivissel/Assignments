@@ -17,11 +17,22 @@ public partial class showSales : System.Web.UI.Page
             Session["notConnected"] = "notConnected";
             Response.Redirect("Login.aspx");
         }
+
+        DBServices dbs = new DBServices();
+        DataSet ds = dbs.ReadFromDataBase("igroup82_test1ConnectionString", "Category");
+
+        Session["DataSet"] = ds;
+
+        // connect the controls to the data source        
+        categoryDDL.DataSource = ds;
+        DataBind(); //must call this method in order to bind the  
+                    //data to the control and render the HTML
     }
+
     protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
     {
 
-        string catName = DropDownList1.Text;
+        string catName = categoryDDL.Text;
 
         string command = "SELECT s.* from sales s join productN p on p.ID=s.prodID join Category cat on cat.id = p.catID ";
         if (catName != "All")

@@ -56,7 +56,7 @@ public partial class showProducts : System.Web.UI.Page
 
     protected void addProducts(List<Product> pList, int min = 0)
     {
-        for (int i = pList[0].ProdId; i < pList.Count; i++)
+        for (int i = ((pList[0].ProdId) - 1); i < pList.Count; i++)
         {
             if (pList[i].IsActive == "Yes")
             {
@@ -70,23 +70,23 @@ public partial class showProducts : System.Web.UI.Page
                 //Controllers assign:
 
                 //Title assign
-                title.ID = "title" + i.ToString();
+                title.ID = "title" + pList[i].ProdId.ToString();
                 title.Text = "<br/>" + pList[i].Title + "<br/>";
 
                 //Images assign
-                img.ID = "img" + i.ToString();
+                img.ID = "img" + pList[i].ProdId.ToString();
                 img.ImageUrl = pList[i].ImagePath;
 
                 //Price assign
-                price.ID = "price" + i.ToString();
+                price.ID = "price" + pList[i].ProdId.ToString();
                 price.Text = "<br/>Price:" + pList[i].Price.ToString();
 
                 //Inventory assign
-                inventory.ID = "inventory" + i.ToString();
+                inventory.ID = "inventory" + pList[i].ProdId.ToString();
                 inventory.Text = "<br/>In Stock: " + pList[i].Inventory.ToString() + "<br/>Buy:";
 
                 //CheckBox assign
-                cb.ID = "cb" + i.ToString();
+                cb.ID = "cb" + pList[i].ProdId.ToString();
                 if (pList[i].Inventory == 0)
                 {
                     cb.Enabled = false;
@@ -100,7 +100,6 @@ public partial class showProducts : System.Web.UI.Page
                 ph.Controls.Add(inventory);
                 ph.Controls.Add(cb);
             }
-
         }
     }
 
@@ -110,14 +109,14 @@ public partial class showProducts : System.Web.UI.Page
         List<Product> pSelectedList = new List<Product>();
 
         //Checking for selected products
-        for (int i = pList[0].ProdId; i < pList.Count; i++)
+        for (int i = ((pList[0].ProdId) - 1); i < pList.Count; i++)
         {
             System.Web.UI.Control control = new System.Web.UI.Control();
-            control = ph.FindControl("cb" + i.ToString());
+            control = ph.FindControl("cb" + pList[i].ProdId.ToString());
             System.Web.UI.WebControls.CheckBox cb = new System.Web.UI.WebControls.CheckBox();
             cb = (System.Web.UI.WebControls.CheckBox)control;
 
-            if (cb.Checked)
+            if (cb != null && cb.Checked == true)
             {
                 //Assign selected products list and adding the titles to checkout lable               
                 pSelectedList.Add(pList[i]);
@@ -138,7 +137,6 @@ public partial class showProducts : System.Web.UI.Page
                         else
                             pSelectedList[j].Price = (float)(pSelectedList[j].Price * 0.8);
                     }
-
                 }
                 //insert selected products to Session
                 Session["pSelectedList"] = pSelectedList;

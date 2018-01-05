@@ -65,7 +65,7 @@
              ErrorMessage="Please enter inventory amount" runat="server" Style="color: #FF0000"/> 
 
         <!--Product Active -->
-        <p>Is product active on shop?</p>
+        <p>Is product active on shop? "Yes" or "No"</p>
         <asp:TextBox ID="activeTB" runat="server"></asp:TextBox><br />
         <asp:RequiredFieldValidator ID="RequiredFieldValidator3"
           ControlToValidate="activeTB" runat="server" ErrorMessage="Please enter the product status: Yes or No"

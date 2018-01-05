@@ -114,6 +114,7 @@ public partial class Cart : System.Web.UI.Page
             newListp = (List<Product>)(Session["pSelectedList"]);
             int i = 0;
             double total = 0;
+            double discountPrice = 0;
             foreach (Product prod in newListp)
             {
                 if (ph.FindControl("cb" + i.ToString()) != null)
@@ -126,15 +127,19 @@ public partial class Cart : System.Web.UI.Page
                     {
                         if (selected >= 5)
                         {
-                            prod.Price = (float)(prod.Price * 0.9);
+                            discountPrice = (float)(prod.Price * 0.9);
+                            total = total + discountPrice * selected;
                         }
-                        total = total + prod.Price * selected;
+                        else
+                        {
+                            total = total + prod.Price * selected;
+                        }                        
                     }
                     if (ph.FindControl("inventoryDDL" + i.ToString()) != null && cb.Checked == true)
                     {
                         if (selected >= 5)
                         {
-                            MessageBox.Show("Congratulations! You deserve a 10 percent discount on this product");
+                            Response.Write("<script language=javascript>alert('Congratulations! You deserve a 10 percent discount on this product');</script>");
                         }
                     }
                 }

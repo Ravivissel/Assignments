@@ -12,8 +12,6 @@ public partial class Login : System.Web.UI.Page
     const string MANAGER_TYPE = "MANAGER";
     const string CUSTOMER_TYPE = "CUSTOMER";
 
-
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["notConnected"] != null)
@@ -81,8 +79,6 @@ public partial class Login : System.Web.UI.Page
         // data has been validated successfully
         if (exist == 1)
         {
-
-
             if (Request.Cookies["pass"] != null && Request.Cookies["name"] != null)
             {
                 if (rememberMe.Checked == true)
@@ -98,13 +94,11 @@ public partial class Login : System.Web.UI.Page
 
             Session["customer"] = customer;
 
-
             if (customer.UserType == MANAGER_TYPE) //redirect manager and customer to the right pages
             {
                 Session["admin"] = customer.Id;
                 Response.Redirect("inventoryManagement.aspx");
             }
-
             else
                 Response.Redirect("showProducts.aspx");
         }
